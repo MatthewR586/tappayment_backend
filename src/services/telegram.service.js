@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: false});
 
-const sendNotification = (data) => {
+const sendNotification = (data, res) => {
     if(data?.body?.type == 'orders.delivery.completed') {
         console.log(data?.body?.data.orderId, (data?.body?.data.payment.received.amount - 2).toFixed(2))
         // send telegram notification 
