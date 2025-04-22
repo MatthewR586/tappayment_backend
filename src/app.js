@@ -28,4 +28,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal server error' });
 });
 
+console.log(process.env.TELEGRAM_BOT_TOKEN)
+
 module.exports = app;
