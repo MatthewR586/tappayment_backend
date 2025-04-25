@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logRoutes = require('./routes/log.routes');
@@ -9,6 +10,7 @@ const { sendNotification } = require('./services/telegram.service');
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('dev'));  // HTTP request logger
 
