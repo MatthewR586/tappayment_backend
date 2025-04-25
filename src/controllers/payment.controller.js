@@ -7,7 +7,7 @@ const createNew = async (req, res) => {
         const existingVenue = await prisma.orderHistory.count({
             where: {order_id: orderId}
         })
-        if (existingVenue > 0) {
+        if (existingVenue == 0) {
             const venue = await prisma.orderHistory.create({
                 data: {
                     order_id: orderId,
