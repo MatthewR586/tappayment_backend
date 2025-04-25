@@ -24,6 +24,7 @@ model OrderHistory {
   transaction_id String?   @db.VarChar(100)
   venue_id       Int
   venue          Venue    @relation(fields: [venue_id], references: [id])
+  status         Boolean  @default(false)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 

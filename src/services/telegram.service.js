@@ -26,8 +26,20 @@ const sendNotificationDev = async (data, res) => {
                     venue: true
                 }
             })
+
+            if (!orderWithVenue.status) {
+                groupBot.sendMessage(Number(orderWithVenue?.venue.chatId), `💸 Amount: ${(data?.body?.data.payment.received.amount - 2).toFixed(2)}\nOrder ID: ${data?.body?.data.orderId}`).then(() => console.log("Message sent to group!")).catch(err => console.log('Error:', err.message));
+                await prisma.orderHistory.update({
+                    where: {
+                      id: orderWithVenue.id
+                    },
+                    data: {
+                      status: true
+                    }
+                  });
+                  console.log("Order status updated to true");
+            }
             // send telegram notification 
-            groupBot.sendMessage(Number(orderWithVenue?.venue.chatId), `💸 Amount: ${(data?.body?.data.payment.received.amount - 2).toFixed(2)}\nOrder ID: ${data?.body?.data.orderId}`).then(() => console.log("Message sent to group!")).catch(err => console.log('Error:', err.message));
         }
         res.status(200).json({});            
     } catch (error) {
