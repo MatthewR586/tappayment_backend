@@ -20,7 +20,7 @@ const sendNotification = async (data, res) => {
         }
         res.status(200).json({});            
     } catch (error) {
-        console.log(err)
+        console.log(error)
         res.status(400).json({})
     }
 };

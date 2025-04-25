@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logRoutes = require('./routes/log.routes');
 const vendorRoutes = require('./routes/vendor.routes');
+const paymentRoutes = require('./routes/payment.routes');
 const { sendNotification } = require('./services/telegram.service');
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(morgan('dev'));  // HTTP request logger
 // Routes
 app.use('/api/logs', logRoutes);
 app.use('/api/vendor', vendorRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Webhook
 app.use('/webhook', sendNotification)
