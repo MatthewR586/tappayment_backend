@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: false});
-
+const groupBot = new TelegramBot(process.env.TELEGRAM_BOT_GROUP_TOKEN, {polling: false});
 const sendNotification = (data, res) => {
     if(data?.body?.type == 'orders.delivery.completed') {
         console.log(data?.body?.data.orderId, (data?.body?.data.payment.received.amount - 2).toFixed(2))
@@ -27,7 +27,7 @@ const sendNotificationDev = async (data, res) => {
                 }
             })
             // send telegram notification 
-            bot.sendMessage(Number(orderWithVenue?.venue.chatId), `💸 Amount: ${(data?.body?.data.payment.received.amount - 2).toFixed(2)}\nOrder ID: ${data?.body?.data.orderId}`).then(() => console.log("Message sent to group!")).catch(err => console.log('Error:', err.message));
+            groupBot.sendMessage(Number(orderWithVenue?.venue.chatId), `💸 Amount: ${(data?.body?.data.payment.received.amount - 2).toFixed(2)}\nOrder ID: ${data?.body?.data.orderId}`).then(() => console.log("Message sent to group!")).catch(err => console.log('Error:', err.message));
         }
         res.status(200).json({});            
     } catch (error) {
