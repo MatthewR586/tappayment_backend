@@ -21,7 +21,7 @@ model Venue {
 model OrderHistory {
   id             Int      @id @default(autoincrement())
   order_id       String   @unique @db.VarChar(50)
-  transaction_id String   @db.VarChar(100)
+  transaction_id String?   @db.VarChar(100)
   venue_id       Int
   venue          Venue    @relation(fields: [venue_id], references: [id])
   createdAt      DateTime @default(now()) @map("created_at")
