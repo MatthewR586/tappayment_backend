@@ -15,6 +15,7 @@ const createNew = async (req, res) => {
                 }
             })    
             res.json({ success: true, message: venue });
+            return;
         }
         res.json({ success: false, message: "Already exist" });
     } catch (err) {
