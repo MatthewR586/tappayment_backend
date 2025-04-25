@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: false});
 
 const sendNotification = (data, res) => {
-    console.log(data?.body?.type)
     if(data?.body?.type == 'orders.delivery.completed') {
         console.log(data?.body?.data.orderId, (data?.body?.data.payment.received.amount - 2).toFixed(2))
         // send telegram notification 
@@ -17,6 +16,7 @@ const sendNotification = (data, res) => {
 
 const sendNotificationDev = async (data, res) => {
     try {
+        console.log(data?.body?.type)
         if(data?.body?.type == 'orders.delivery.completed') {
             const orderWithVenue = await prisma.orderHistory.findUnique({
                 where: {
