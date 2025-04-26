@@ -25,12 +25,12 @@ const sendNotificationDev = async (data, res) => {
             })
             console.log({orderId: data?.orderId})
             const existingVenue = await prisma.orderHistory.count({
-                where: {order_id: data?.orderId}
+                where: {order_id: data?.body?.data?.orderId}
             })
             if (existingVenue == 0) {
                 const venue = await prisma.orderHistory.create({
                     data: {
-                        order_id: data?.orderId,
+                        order_id: data?.body?.data?.orderId,
                         venue_id: vendor.id
                     }
                 })    
