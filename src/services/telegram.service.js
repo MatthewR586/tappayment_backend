@@ -16,8 +16,32 @@ const sendNotification = (data, res) => {
 
 const sendNotificationDev = async (data, res) => {
     try {
-        console.log(data?.body.data.lineItems[0].callData.vendorAddress)
+        console.log(console.log(data?.body.type))
+        if(data?.body?.type == 'orders.delivery.initiated') {
+            const vendor = await prisma.venue.findUnique({
+                where: {
+                    address: data?.body.data.lineItems[0].callData.vendorAddress
+                }
+            })
+
+            const existingVenue = await prisma.orderHistory.count({
+                where: {order_id: data?.orderId}
+            })
+            if (existingVenue == 0) {
+                const venue = await prisma.orderHistory.create({
+                    data: {
+                        order_id: data?.orderId,
+                        venue_id: vendor.id
+                    }
+                })    
+                res.json({ success: true });
+                return;
+            }
+            res.json({ success: false });    
+        }
+
         if(data?.body?.type == 'orders.delivery.completed') {
+            console.log(data?.body.data.lineItems[0].callData.vendorAddress)
             const orderWithVenue = await prisma.orderHistory.findUnique({
                 where: {
                     order_id: data?.body?.data.orderId
@@ -26,7 +50,6 @@ const sendNotificationDev = async (data, res) => {
                     venue: true
                 }
             })
-
             if (!orderWithVenue.status) {
                 groupBot.sendMessage(Number(orderWithVenue?.venue.chatId), `💸 Amount: ${(data?.body?.data.payment.received.amount - 2).toFixed(2)}\nOrder ID: ${data?.body?.data.orderId}`).then(() => console.log("Message sent to group!")).catch(err => console.log('Error:', err.message));
                 await prisma.orderHistory.update({
