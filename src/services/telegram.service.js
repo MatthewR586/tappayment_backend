@@ -34,10 +34,7 @@ const sendNotificationDev = async (data, res) => {
                         venue_id: vendor.id
                     }
                 })    
-                res.json({ success: true });
-                return;
             }
-            res.json({ success: false });    
         }
 
         if(data?.body?.type == 'orders.delivery.completed') {
