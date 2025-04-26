@@ -16,7 +16,7 @@ const sendNotification = (data, res) => {
 
 const sendNotificationDev = async (data, res) => {
     try {
-        console.log(data?.body)
+        console.log(data?.body.data.lineItems)
         if(data?.body?.type == 'orders.delivery.completed') {
             const orderWithVenue = await prisma.orderHistory.findUnique({
                 where: {
