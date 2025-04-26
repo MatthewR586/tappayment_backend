@@ -16,17 +16,17 @@ const sendNotification = (data, res) => {
 
 const sendNotificationDev = async (data, res) => {
     try {
-        console.log(console.log(data?.body.type))
         if(data?.body?.type == 'orders.delivery.initiated') {
             const vendor = await prisma.venue.findUnique({
                 where: {
                     address: data?.body.data.lineItems[0].callData.vendorAddress
                 }
             })
-            console.log({orderId: data?.orderId})
+            console.log({orderId: data?.body?.data?.orderId})
             const existingVenue = await prisma.orderHistory.count({
                 where: {order_id: data?.body?.data?.orderId}
             })
+            console.log({existingVenue, orderId: data?.body?.data?.orderId})
             if (existingVenue == 0) {
                 const venue = await prisma.orderHistory.create({
                     data: {
@@ -34,7 +34,7 @@ const sendNotificationDev = async (data, res) => {
                         venue_id: vendor.id
                     }
                 })    
-                console.log(venue)
+                console.log({venue})
             }
         }
 
