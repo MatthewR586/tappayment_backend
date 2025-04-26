@@ -23,7 +23,7 @@ const sendNotificationDev = async (data, res) => {
                     address: data?.body.data.lineItems[0].callData.vendorAddress
                 }
             })
-console.log({vendor})
+            console.log({orderId: data?.orderId})
             const existingVenue = await prisma.orderHistory.count({
                 where: {order_id: data?.orderId}
             })
