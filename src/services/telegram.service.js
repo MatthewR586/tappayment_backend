@@ -10,7 +10,7 @@ const sendNotification = (data, res) => {
         ...data.body,
     }, {
         headers: {
-            ...data.header,
+            ...data.headers,
         },
         params: {
             ...data.query,
