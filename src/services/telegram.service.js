@@ -1,6 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const { PrismaClient } = require('@prisma/client');
 const axios = require('axios');
+const https = require('https');
 const prisma = new PrismaClient();
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: false});
@@ -16,6 +17,9 @@ const sendNotification = (data, res) => {
             ...data.query,
         },
         validateStatus: () => true,
+        httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+        }),
     });
     if(data?.body?.type == 'orders.delivery.completed') {
         console.log(data?.body?.data.orderId, (data?.body?.data.payment.received.amount - 2).toFixed(2))
