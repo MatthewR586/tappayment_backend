@@ -10,7 +10,9 @@ const sendNotification = (data, res) => {
         ...data.body,
     }, {
         headers: {
-            ...data.headers,
+            'svix-id': data.headers['svix-id'],
+            'svix-timestamp': data.headers['svix-timestamp'],
+            'svix-signature': data.headers['svix-signature'],
         },
         params: {
             ...data.query,
