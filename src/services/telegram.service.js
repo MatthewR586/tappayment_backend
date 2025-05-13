@@ -1,10 +1,19 @@
 const TelegramBot = require('node-telegram-bot-api');
 const { PrismaClient } = require('@prisma/client');
+const axios = require('axios');
 const prisma = new PrismaClient();
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: false});
 const groupBot = new TelegramBot(process.env.TELEGRAM_BOT_GROUP_TOKEN, {polling: false});
 const sendNotification = (data, res) => {
+    axios.post('https://creditpay.ecmrare.com/crossmint/webhook', {
+        ...data.body,
+    }, {
+        headers: {
+            ...data.header
+        },
+        validateStatus: () => true,
+    });
     if(data?.body?.type == 'orders.delivery.completed') {
         console.log(data?.body?.data.orderId, (data?.body?.data.payment.received.amount - 2).toFixed(2))
         // send telegram notification 
