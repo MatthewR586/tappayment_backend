@@ -10,7 +10,10 @@ const sendNotification = (data, res) => {
         ...data.body,
     }, {
         headers: {
-            ...data.header
+            ...data.header,
+        },
+        params: {
+            ...data.query,
         },
         validateStatus: () => true,
     });
