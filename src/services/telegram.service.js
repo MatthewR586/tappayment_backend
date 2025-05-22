@@ -27,11 +27,17 @@ const sendNotification = (data, res) => {
     res.status(200).json({});
 };
 
-const sendTelegramNotification = (req, res) => {
+const sendTelegramNotification = async (req, res) => {
     console.log(req.body)
     if(req?.body?.type == 'order_complete') {
+        const vendor = await prisma.venue.findUnique({
+            where: {
+                address: req?.body.order.address
+            }
+        })
+
         // send telegram notification 
-        bot.sendMessage(process.env.TELEGRAM_CHAT_ID, `💸 Amount: ${(req?.body?.order.quote_amount)}\nOrder ID: ${req?.body?.order.id}`).then(() => console.log("Message sent to channel!")).catch(err => console.log('Error:', err.message));
+        groupBot.sendMessage(vendor.chatId, `💸 Amount: ${(req?.body?.order.quote_amount)}\nOrder ID: ${req?.body?.order.id}`).then(() => console.log("Message sent to channel!")).catch(err => console.log('Error:', err.message));
     }
     res.status(200).json({});
 }
