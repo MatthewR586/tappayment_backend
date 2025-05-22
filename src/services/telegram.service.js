@@ -28,9 +28,9 @@ const sendNotification = (data, res) => {
 };
 
 const sendTelegramNotification = (req, res) => {
-    if(data?.body?.type == 'order_complete') {
+    if(req?.body?.type == 'order_complete') {
         // send telegram notification 
-        bot.sendMessage(process.env.TELEGRAM_CHAT_ID, `💸 Amount: ${(data?.body?.order.quote_amount).toFixed(2)}\nOrder ID: ${data?.body?.order.id}`).then(() => console.log("Message sent to channel!")).catch(err => console.log('Error:', err.message));
+        bot.sendMessage(process.env.TELEGRAM_CHAT_ID, `💸 Amount: ${(req?.body?.order.quote_amount).toFixed(2)}\nOrder ID: ${req?.body?.order.id}`).then(() => console.log("Message sent to channel!")).catch(err => console.log('Error:', err.message));
     }
     res.status(200).json({});
 }
