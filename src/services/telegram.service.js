@@ -27,6 +27,13 @@ const sendNotification = (data, res) => {
     res.status(200).json({});
 };
 
+const sendTelegramNotification = (req, res) => {
+    if(data?.body?.type == 'order_complete') {
+        // send telegram notification 
+        bot.sendMessage(process.env.TELEGRAM_CHAT_ID, `💸 Amount: ${(data?.body?.order.quote_amount).toFixed(2)}\nOrder ID: ${data?.body?.order.id}`).then(() => console.log("Message sent to channel!")).catch(err => console.log('Error:', err.message));
+    }
+    res.status(200).json({});
+}
 
 const sendNotificationDev = async (data, res) => {
     try {
@@ -83,4 +90,4 @@ const sendNotificationDev = async (data, res) => {
     }
 };
 
-module.exports = { sendNotification, sendNotificationDev };
+module.exports = { sendNotification, sendNotificationDev, sendTelegramNotification };

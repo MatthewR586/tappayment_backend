@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const logRoutes = require('./routes/log.routes');
 const vendorRoutes = require('./routes/vendor.routes');
 const paymentRoutes = require('./routes/payment.routes');
-const { sendNotification, sendNotificationDev } = require('./services/telegram.service');
+const { sendNotification, sendNotificationDev, sendTelegramNotification } = require('./services/telegram.service');
 
 const app = express();
 
@@ -22,6 +22,7 @@ app.use('/api/payment', paymentRoutes);
 // Webhook
 app.use('/webhook', sendNotification)
 app.use('/webhookdev', sendNotificationDev)
+app.use('/wert', sendTelegramNotification)
 // 404 Handler
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
